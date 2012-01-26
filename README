@@ -1,0 +1,47 @@
+/**************************************************************
+	* youRhere v1.0 - jQuery Plugin
+	* http://yourhere.gandtblog.com/
+	* Copyright 2012, Daniel Sternlicht
+	* http://www.danielsternlicht.com
+	* Dual licensed under the MIT or GPL Version 2 licenses.		
+	* Enjoy :)
+***************************************************************/
+
+What does "youRhere" jQuery plugin do?
+--------------------------------------
+
+"youRhere" is an awesome jQuery plugin which give your readers a chance to mark their article reading- progress by just clicking it.
+
+***************************************************************/
+
+Features
+--------
+
+* 100% Free
+* Very easy to implement
+* Cross Browsers support
+* Multiple configurability options
+* 1 JS file - Only 7k
+
+***************************************************************/
+
+Options
+-------
+
+markerDirection -> Controls which way the marker will appear. Your choices between 'right' or 'left'.
+
+tempMarkerBackground -> Controls the scrolling "marker" background. Sets a "Background" property to the ".yourhere-tempMarker" DIV. Basically can accept anything you want including background colors, images, positions and so on.. 
+
+markerLineBackground -> Controls the background color of the highlighted line. Accept any color with any format you want. f.e "black", "#000000", "rgb(0,0,0)".
+
+markerBackgroundOpacity -> Sets an "Opacity" property to the highlighted line background. Accept any number in the range of 0.0 - 1.0.
+
+markerBackground -> Controls the "marker" element background. Sets a "Background" property to the ".yourhere-marker" DIV. Can accept anything you want including background colors, images, positions and so on.. 
+
+markerWidth -> Sets a "Width" property to the Marker element ('.yourhere-marker'). Accept a number of pixels. f.e "20px"
+
+supportedElements -> Sets which DOM elements will respond to the youRhere click event (highlighted text). Accept multiple elements, should be seperated by ",". f.e: "p, h2, blockquote" - will trigger the click event on paragraphs, heading 2 text and blockquotes.							
+
+***************************************************************/
+
+Enjoy :)
