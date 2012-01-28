@@ -66,7 +66,7 @@
 				var lineHeight = $(this).css('lineHeight').replace('px', '') > $(this).css('fontSize').replace('px', '') ? $(this).css('lineHeight').replace('px', '') : $(this).css('fontSize').replace('px', '');
 				var y = e.pageY - boxOffset - (lineHeight / 2);
 				if(e.pageY < boxOffset + lineHeight / 2 || e.pageY > box.height() + boxOffset) return;
-				box.find('.yourhere-temp-marker').stop(true).animate({
+				box.find('.yourhere-temp-marker').stop(true, true).animate({
 					top: y,
 					height: lineHeight + 'px'
 				}, 'fast');
