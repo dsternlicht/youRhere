@@ -13,6 +13,7 @@
 	$.yourhere = {
 		
 		init: function(options, box) {			
+			
 			var boxLineHeight = parseFloat(box.css('fontSize'));
 			var basicZindex = box.css('z-index') != 'auto' ? parseInt(box.css('z-index')) : 10;			
 			
