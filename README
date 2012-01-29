@@ -1,10 +1,10 @@
 /**************************************************************
-	* youRhere v1.0 - jQuery Plugin
-	* http://yourhere.gandtblog.com/
-	* Copyright 2012, Daniel Sternlicht
-	* http://www.danielsternlicht.com
-	* Dual licensed under the MIT or GPL Version 2 licenses.		
-	* Enjoy :)
+* youRhere v1.1 - jQuery Plugin
+* http://yourhere.gandtblog.com/
+* Copyright 2012, Daniel Sternlicht
+* http://www.danielsternlicht.com
+* Dual licensed under the MIT or GPL Version 2 licenses.		
+* Enjoy :)
 ***************************************************************/
 
 What does "youRhere" jQuery plugin do?
@@ -18,6 +18,7 @@ Features
 --------
 
 * 100% Free
+* Using HTML5 local storage API
 * Very easy to implement
 * Cross Browsers support
 * Multiple configurability options
@@ -27,6 +28,8 @@ Features
 
 Options
 -------
+
+useLocalStorage -> Controls the HTML5 Local Storage API that allow the user to save his reading progress by marking a line. Accept "true" or "false".
 
 markerDirection -> Controls which way the marker will appear. Your choices between 'right' or 'left'.
 
