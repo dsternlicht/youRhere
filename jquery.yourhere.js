@@ -57,7 +57,10 @@
 			// Click event on an element
 			box.children($.yourhere.opts.supportedElements).click(function(e){
 				var lineHeight = $(this).css('lineHeight').replace('px', '') > $(this).css('fontSize').replace('px', '') ? $(this).css('lineHeight').replace('px', '') : $(this).css('fontSize').replace('px', '');	
-				var y = e.pageY - boxOffset - lineHeight / 2;
+				var elmOffset = $(this).offset().top;
+				var z = e.pageY - elmOffset;
+				var e = Math.floor(z / lineHeight);
+				var y = elmOffset - boxOffset + (e * lineHeight);
 				$.yourhere.markerCreator(box, y, lineHeight);
 			});	
 
