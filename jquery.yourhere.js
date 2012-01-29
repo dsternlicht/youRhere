@@ -59,7 +59,11 @@
 			
 			// Click event on an element
 			box.children($.yourhere.opts.supportedElements).click(function(e){
+<<<<<<< HEAD
 				var lineHeight = parseFloat($(this).css('lineHeight')) > parseFloat($(this).css('fontSize')) ? parseFloat($(this).css('lineHeight')) : parseFloat($(this).css('fontSize'));	
+=======
+				var lineHeight = $(this).css('lineHeight').replace('px', '') > $(this).css('fontSize').replace('px', '') ? $(this).css('lineHeight').replace('px', '') : $(this).css('fontSize').replace('px', '');	
+>>>>>>> f3cf4a71cbfee6040b544fdd1c47c6bf795f2cb9
 				var elmOffset = $(this).offset().top;
 				var z = e.pageY - elmOffset;
 				var e = Math.floor(z / lineHeight);
