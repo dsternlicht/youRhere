@@ -1,5 +1,5 @@
 /**************************************************************
-	* youRhere v1.0 - jQuery Plugin
+	* youRhere v1.1 - jQuery Plugin
 	* http://yourhere.gandtblog.com/
 	* Copyright 2012, Daniel Sternlicht
 	* http://www.danielsternlicht.com
@@ -13,8 +13,7 @@
 	$.yourhere = {
 		
 		init: function(options, box) {			
-			$.yourhere.box = box;			
-			var boxLineHeight = box.css('fontSize').replace('px', '');
+			var boxLineHeight = parseFloat(box.css('fontSize'));
 			var basicZindex = box.css('z-index') != 'auto' ? parseInt(box.css('z-index')) : 10;			
 			
 			// Check the container has position and set a default if not
@@ -41,7 +40,10 @@
 				backgroundColor: $.yourhere.opts.markerLineBackground,
 				opacity: $.yourhere.opts.markerBackgroundOpacity,
 				height: boxLineHeight + 'px'		
-			});												
+			});	
+			
+			// Check for previus data storage
+			$.yourhere.checkStorage(box);
 			
 			// Create the temporary marker
 			$.yourhere.tempMarker(box, boxLineHeight, basicZindex);						
@@ -56,14 +58,21 @@
 			
 			// Click event on an element
 			box.children($.yourhere.opts.supportedElements).click(function(e){
-				var lineHeight = $(this).css('lineHeight').replace('px', '') > $(this).css('fontSize').replace('px', '') ? $(this).css('lineHeight').replace('px', '') : $(this).css('fontSize').replace('px', '');	
-				var y = e.pageY - boxOffset - lineHeight / 2;
+				var lineHeight = parseFloat($(this).css('lineHeight')) > parseFloat($(this).css('fontSize')) ? parseFloat($(this).css('lineHeight')) : parseFloat($(this).css('fontSize'));	
+				var elmOffset = $(this).offset().top;
+				var z = e.pageY - elmOffset;
+				var e = Math.floor(z / lineHeight);
+				var y = elmOffset - boxOffset + (e * lineHeight);
 				$.yourhere.markerCreator(box, y, lineHeight);
+				if(localStorage && $.yourhere.opts.useLocalStorage){
+					localStorage.removeItem('yourhere_' + window.location.pathname);
+					localStorage.setItem('yourhere_' + window.location.pathname, y + "," + lineHeight);
+				}
 			});	
 
 			// Mouse move event
 			box.children().mousemove(function(e){
-				var lineHeight = $(this).css('lineHeight').replace('px', '') > $(this).css('fontSize').replace('px', '') ? $(this).css('lineHeight').replace('px', '') : $(this).css('fontSize').replace('px', '');
+				var lineHeight = parseFloat($(this).css('lineHeight')) > parseFloat($(this).css('fontSize')) ? parseFloat($(this).css('lineHeight')) : parseFloat($(this).css('fontSize'));
 				var y = e.pageY - boxOffset - (lineHeight / 2);
 				if(e.pageY < boxOffset + lineHeight / 2 || e.pageY > box.height() + boxOffset) return;
 				box.find('.yourhere-temp-marker').stop(true, true).animate({
@@ -76,6 +85,8 @@
 			box.find('.yourhere-marker').dblclick(function() {
 				$(this).fadeOut('fast');
 				box.find('.yourhere-markerline').fadeOut('fast');
+				if(localStorage && $.yourhere.opts.useLocalStorage)
+					localStorage.removeItem('yourhere_' + window.location.pathname);
 			});
 		},
 		
@@ -115,6 +126,18 @@
 			box.find('.yourhere-marker, .yourhere-markerline').css($.yourhere.opts.markerDirection, (-(box.find('.yourhere-marker').width()) + 'px'));
 		},
 		
+		checkStorage: function(box) {
+			if(localStorage && $.yourhere.opts.useLocalStorage) {
+				var data = localStorage.getItem('yourhere_' + window.location.pathname);
+				if(data && data != '') {
+					var arr = data.split(',');
+					$.yourhere.markerCreator(box, parseInt(arr[0]), parseInt(arr[1]));
+				}
+			} else {
+				return;
+			}
+		},
+		
 		opts: {}
 		
 	}
@@ -126,6 +149,7 @@
 	
 	// youRhere default properties
 	$.fn.yourhere.defaults = {
+		useLocalStorage: true,
 		markerDirection: 'left',
 		tempMarkerBackground: '#b7b7b7',
 		markerLineBackground: '#FFF82A',
