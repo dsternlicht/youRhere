@@ -13,7 +13,6 @@
 	$.yourhere = {
 		
 		init: function(options, box) {			
-			
 			var boxLineHeight = parseFloat(box.css('fontSize'));
 			var basicZindex = box.css('z-index') != 'auto' ? parseInt(box.css('z-index')) : 10;			
 			
@@ -66,8 +65,8 @@
 				var y = elmOffset - boxOffset + (e * lineHeight);
 				$.yourhere.markerCreator(box, y, lineHeight);
 				if(localStorage && $.yourhere.opts.useLocalStorage){
-					localStorage.removeItem('yourhere_' + window.location.pathname);
-					localStorage.setItem('yourhere_' + window.location.pathname, y + "," + lineHeight);
+					localStorage.removeItem('yourhere_' + window.location.href);
+					localStorage.setItem('yourhere_' + window.location.href, y + "," + lineHeight);
 				}
 			});	
 
@@ -87,7 +86,7 @@
 				$(this).fadeOut('fast');
 				box.find('.yourhere-markerline').fadeOut('fast');
 				if(localStorage && $.yourhere.opts.useLocalStorage)
-					localStorage.removeItem('yourhere_' + window.location.pathname);
+					localStorage.removeItem('yourhere_' + window.location.href);
 			});
 		},
 		
@@ -129,12 +128,20 @@
 		
 		checkStorage: function(box) {
 			if(localStorage && $.yourhere.opts.useLocalStorage) {
-				var data = localStorage.getItem('yourhere_' + window.location.pathname);
+				var data = localStorage.getItem('yourhere_' + window.location.href);
 				if(data && data != '') {
 					var arr = data.split(',');
 					$.yourhere.markerCreator(box, parseInt(arr[0]), parseInt(arr[1]));
+					if($.yourhere.opts.autoScrollToMarker) {
+						setTimeout(function() {
+							$('body').animate({
+								scrollTop: parseInt(arr[0])
+							});
+						}, 1500);
+					}										
 				}
 			} else {
+				if(localStorage) localStorage.removeItem('yourhere_' + window.location.href);
 				return;
 			}
 		},
@@ -151,6 +158,7 @@
 	// youRhere default properties
 	$.fn.yourhere.defaults = {
 		useLocalStorage: true,
+		autoScrollToMarker: true,
 		markerDirection: 'left',
 		tempMarkerBackground: '#b7b7b7',
 		markerLineBackground: '#FFF82A',
