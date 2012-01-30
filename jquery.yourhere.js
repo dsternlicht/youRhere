@@ -1,5 +1,5 @@
 /**************************************************************
-	* youRhere v1.1 - jQuery Plugin
+	* youRhere v1.2 - jQuery Plugin
 	* http://yourhere.gandtblog.com/
 	* Copyright 2012, Daniel Sternlicht
 	* http://www.danielsternlicht.com
