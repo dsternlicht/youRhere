@@ -1,5 +1,5 @@
 /**************************************************************
-	* youRhere v1.3 - jQuery Plugin
+	* youRhere v1.4 - jQuery Plugin
 	* http://yourhere.gandtblog.com/
 	* Copyright 2012, Daniel Sternlicht
 	* http://www.danielsternlicht.com
@@ -58,6 +58,13 @@
 		eventsHandler: function(box, boxLineHeight) {
 			var boxOffset = box.offset().top;
 			
+			// Hover event to reveal / hide the temp marker
+			box.hover(function(){
+				box.find('.yourhere-temp-marker').stop(true, true).fadeIn('slow');
+			}, function(){
+				box.find('.yourhere-temp-marker').stop(true, true).fadeOut('slow');
+			});
+			
 			// Click event on an element
 			box.children($.yourhere.opts.supportedElements).click(function(e){
 				if(localStorage && !localStorage.getItem('yourhere_first_time') && $.yourhere.opts.firstTimeWizard) {
@@ -89,7 +96,7 @@
 				$(this).fadeOut('fast');
 				box.find('.yourhere-markerline').fadeOut('fast');
 				if(localStorage && $.yourhere.opts.useLocalStorage)
-					localStorage.removeItem('yourhere_' + window.location.pathname);
+					localStorage.removeItem('yourhere_' + window.location.href);
 			});
 			
 			function placeMarker(elm, e) {
@@ -100,8 +107,8 @@
 				var y = elmOffset - boxOffset + (e * lineHeight);
 				$.yourhere.markerCreator(box, y, lineHeight);
 				if(localStorage && $.yourhere.opts.useLocalStorage){
-					localStorage.removeItem('yourhere_' + window.location.pathname);
-					localStorage.setItem('yourhere_' + window.location.pathname, y + "," + lineHeight);
+					localStorage.removeItem('yourhere_' + window.location.href);
+					localStorage.setItem('yourhere_' + window.location.href, y + "," + lineHeight);
 				}
 			}
 		},
@@ -115,7 +122,8 @@
 				top: 0,
 				background: $.yourhere.opts.tempMarkerBackground
 			});
-			box.find('.yourhere-temp-marker').css($.yourhere.opts.markerDirection, (-(box.find('.yourhere-temp-marker').width()) + 'px'));
+			box.find('.yourhere-temp-marker').css($.yourhere.opts.markerDirection, (-(box.find('.yourhere-temp-marker').width()) + 'px'))
+			.hide();
 		},
 		
 		markerCreator: function(box, y, lineHeight) {
@@ -144,7 +152,7 @@
 		
 		checkStorage: function(box) {
 			if(localStorage && $.yourhere.opts.useLocalStorage) {
-				var data = localStorage.getItem('yourhere_' + window.location.pathname);
+				var data = localStorage.getItem('yourhere_' + window.location.href);
 				if(data && data != '') {
 					var arr = data.split(',');
 					$.yourhere.markerCreator(box, parseInt(arr[0]), parseInt(arr[1]));
@@ -157,7 +165,7 @@
 					}										
 				}
 			} else {
-				if(localStorage) localStorage.removeItem('yourhere_' + window.location.pathname);
+				if(localStorage) localStorage.removeItem('yourhere_' + window.location.href);
 				return;
 			}
 		},
@@ -180,12 +188,13 @@
 					boxShadow: '0 1px 2px rgba(0,0,0,0.4), inset 0 0 1px #fff',
 					lineHeight: '18px',
 					fontSize: '12px',
+					direction: 'ltr',
 					zIndex: '999'
 				});
 				
 				var tooltip = box.find('.yourhere-tooltip');				
 				tooltip.css($.yourhere.opts.markerDirection, -(parseFloat(tooltip.outerWidth()) / 2) + 'px')
-				.find('.yourhere-tooltip-step').html($.yourhere.firstTimeSteps[0]);
+				.find('.yourhere-tooltip-step').html($.yourhere.firstTimeSteps[0]);								
 				
 				$('<div class="yourhere-tooltip-cornerT"></div>').appendTo(tooltip)
 				.css({
@@ -235,11 +244,22 @@
 			// Place the tooltip relative to the youRhere marker
 			setTimeout(function(){
 				$('.yourhere-tooltip').fadeIn(function(){
-					$('.yourhere-tooltip').animate({top: parseFloat(box.find('.yourhere-marker').css('top')) - parseFloat($('.yourhere-tooltip').outerHeight()) - 13});
+					$('.yourhere-tooltip').animate({top: parseFloat(box.find('.yourhere-marker').css('top')) - parseFloat($('.yourhere-tooltip').outerHeight()) - 13});					
+					$.yourhere.checkOffset();
 				});
 			}, 1000);
 			
 			$.yourhere.firstTimeTutorialEvents(box, tooltip);
+		},
+		
+		checkOffset: function() {
+			var tooltip = $('.yourhere-tooltip');
+			if(tooltip.offset().left < 0) {
+				tooltip.stop().animate({left: 0 + 'px'});
+			}
+			else {
+				tooltip.stop().animate({left: -(parseFloat(tooltip.outerWidth()) / 2) + 'px'});
+			}
 		},
 		
 		firstTimeTutorialEvents: function(box, tooltip) {
@@ -269,6 +289,10 @@
 					}, 500);
 				}
 			});
+			
+			$(window).resize(function(){
+				$.yourhere.checkOffset();
+			});
 		},
 
 		firstTimeSteps: [
@@ -283,7 +307,7 @@
 	}
 	
 	// Creating new instance for each youRhere call
-	$.fn.yourhere = function( options ) {     
+	$.fn.yourhere = function( options ) {
 		var yourhere = new $.yourhere.init( options, this );        
     };
 	

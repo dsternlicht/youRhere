@@ -19,7 +19,8 @@
 * Very easy to implement
 * Cross Browsers support
 * Multiple configurability options
-* 1 JS file - Only 7k
+* 1 JS file - Only 12k
+* Minimized version - Only 8k
 
 ## Usage
 
@@ -96,7 +97,8 @@ You can see a few examples on our Demo Page at: http://yourhere.gandtblog.com/de
 
 ## Release
 
-* Current 1.3 beta - Added "first time wizard", changed functionality and fixed some bugs. Last updated on 2/2/12. 
+* Current 1.4 beta - Added window.resize & hover events support and fixed bugs. Updated on 8/2/12.
+* 1.3 beta - Added "first time wizard", changed functionality and fixed some bugs. Last updated on 2/2/12. 
 * 1.2 beta - Added scroll to last marker option and bug fixes. Last updated on 31/1/12. 
 * 1.1 beta - Added HTML5 Local Storage support and bug fixes. Last updated on 30/1/12. 
 * 1.0 beta - "youRhere" jQuery plugin. Last updated on 27/1/12.
